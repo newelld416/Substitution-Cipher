@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+/**
+ * Created by Daniel Newell on 9/1/2014.
+ */
 public class Main {
 
     /**
@@ -14,17 +17,20 @@ public class Main {
     public static void main(String[] args) {
         TranslateEngine translateEngine = new TranslateEngine(Constants.FILE_PATH);
         Scanner scanner = new Scanner(System.in);
-        System.out.print(Constants.START_MESSAGE);
-        String nextLine = scanner.nextLine();
-
+        boolean ValidInput = false;
         String choice = "";
-        if (nextLine.toLowerCase().equals(Constants.DECRYPT)) {
-            choice = Constants.DECRYPT;
-        } else if (nextLine.toLowerCase().equals(Constants.ENCRYPT)) {
-            choice = Constants.ENCRYPT;
-        } else {
-            System.out.println(Constants.WRONG_COMMAND_MESSAGE);
-        }
+
+        do {
+            System.out.print(Constants.START_MESSAGE);
+            String nextLine = scanner.nextLine();
+            if (nextLine.toLowerCase().equals(Constants.DECRYPT)) {
+                choice = Constants.DECRYPT;
+                ValidInput = true;
+            } else if (nextLine.toLowerCase().equals(Constants.ENCRYPT)) {
+                choice = Constants.ENCRYPT;
+                ValidInput = true;
+            }
+        } while (!ValidInput);
 
         if (!choice.isEmpty()) {
             System.out.printf(Constants.CHOICE_MESSAGE, choice);
@@ -40,6 +46,10 @@ public class Main {
         }
     }
 
+    /**
+     * This method decides whether you should be outputting to the console or the a file, and outputs the given message.
+     * @param message
+     */
     private static void OutputMessage(String message){
         if(Constants.PRINT_TO_FILE){
             try {
@@ -47,6 +57,7 @@ public class Main {
                 BufferedWriter output = new BufferedWriter(new FileWriter(file));
                 output.write(message);
                 output.close();
+                System.out.println(Constants.OUTPUT_MESSAGE);
             } catch ( Exception e ) {
                 e.printStackTrace();
             }

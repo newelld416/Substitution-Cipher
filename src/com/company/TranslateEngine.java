@@ -14,7 +14,6 @@ public class TranslateEngine {
     private  String codedString = "";
     private String[] bothStrings = new String[2];
 
-
     /**
      * This is the constructor method for this class.
      * @param filePath
@@ -44,11 +43,9 @@ public class TranslateEngine {
      * @return
      */
     private char EncryptCharacter(char decryptedCharacter){
-        if (decryptedCharacter != ' ') {
-            for (int i = 0; i < 54; i++) {
-                if (cipher[i][0] == decryptedCharacter) {
-                    return cipher[i][1];
-                }
+        for (int i = 0; i < 54; i++) {
+            if (cipher[i][0] == decryptedCharacter) {
+                return cipher[i][1];
             }
         }
 
@@ -76,13 +73,12 @@ public class TranslateEngine {
      * @return
      */
     private char DecryptCharacter(char encryptedCharacter) {
-        if (encryptedCharacter != ' ') {
-            for (int i = 0; i < 54; i++) {
-                if (cipher[i][1] == encryptedCharacter) {
-                    return cipher[i][0];
-                }
+        for (int i = 0; i < 54; i++) {
+            if (cipher[i][1] == encryptedCharacter) {
+                return cipher[i][0];
             }
         }
+
         return encryptedCharacter;
     }
 

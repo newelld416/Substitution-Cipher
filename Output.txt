@@ -1,1 +1,1 @@
-Your encrypted string: srN.
+Your decrypted string: DAN IS COOL.

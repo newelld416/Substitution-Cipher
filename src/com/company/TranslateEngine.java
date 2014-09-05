@@ -1,24 +1,23 @@
 package com.company;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Created by Daniel Newell on 9/1/2014.
  */
 public class TranslateEngine {
 
-    private char[][] cipher = new char[54][2];
-    private String standardString = "";
-    private  String codedString = "";
-    private String[] bothStrings = new String[2];
+    private char[][] cipher = new char[56][2];
+    private String KeyWord = "";
 
     /**
      * This is the constructor method for this class.
-     * @param filePath
      */
-    public TranslateEngine(String filePath) {
-        ReadCipherFile(filePath);
+    public TranslateEngine(String keyWord) {
+        KeyWord = RemoveDuplicateLetters(keyWord.toUpperCase());
+        PopulateCipherArray();
     }
 
     /**
@@ -42,7 +41,7 @@ public class TranslateEngine {
      * @return
      */
     private char EncryptCharacter(char decryptedCharacter){
-        for (int i = 0; i < 54; i++) {
+        for (int i = 0; i < 26; i++) {
             if (cipher[i][0] == decryptedCharacter) {
                 return cipher[i][1];
             }
@@ -52,7 +51,7 @@ public class TranslateEngine {
     }
 
     /**
-     * This is a public method used to Decrypt an encrypted string.
+     * This is a public method used to decrypt an encrypted string.
      * @param encryptedString
      * @return
      */
@@ -72,7 +71,7 @@ public class TranslateEngine {
      * @return
      */
     private char DecryptCharacter(char encryptedCharacter) {
-        for (int i = 0; i < 54; i++) {
+        for (int i = 0; i < 26; i++) {
             if (cipher[i][1] == encryptedCharacter) {
                 return cipher[i][0];
             }
@@ -82,44 +81,62 @@ public class TranslateEngine {
     }
 
     /**
-     * This is a private method that reads the cipher file designated in the constructor.
-     * @param fileName
+     * This is a private method used to populate the cipherArray used in encryption and decryption.
      */
-    private void ReadCipherFile(String fileName){
-        try{
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = br.readLine();
-            }
-
-            PopulateCipherArray(sb.toString().split(System.lineSeparator()));
-
-            br.close();
-        } catch (Exception e) {
-            System.out.println("Exception: " + e.toString());
+    private void PopulateCipherArray(){
+        String PlainTextForward = Constants.PlainTextForward;
+        for (int i = 0; i < PlainTextForward.length(); i++){
+            cipher[i][0] = PlainTextForward.charAt(i);
         }
+
+        String EncryptionKey = RemoveDuplicateLetters(KeyWord + Constants.PlainTextBackward);
+        for (int i = 0; i < EncryptionKey.length(); i++){
+            cipher[i][1] = EncryptionKey.charAt(i);
+        }
+
+        String message = String.format("%s\n%s", PlainTextForward, EncryptionKey);
+        OutputMessage(message, Constants.ENCRYPTION_FILENAME);
     }
 
     /**
-     * This is a private method used to populate the cipherArray used in encryption and decryption.
-     * @param bothStrings
+     * This method removes the duplicate letter in the keyword.
+     * @param key
+     * @return
      */
-    private void PopulateCipherArray(String[] bothStrings){
-        if (bothStrings.length == 2) {
-            standardString = bothStrings[0];
-            for (int i = 0; i < standardString.length(); i++) {
-                cipher[i][0] = standardString.charAt(i);
-            }
-
-            codedString = bothStrings[1];
-            for (int i = 0; i < codedString.length(); i++) {
-                cipher[i][1] = codedString.charAt(i);
-            }
+    private String RemoveDuplicateLetters(String key){
+        char[] chars = key.toCharArray();
+        Set<Character> charSet = new LinkedHashSet<Character>();
+        for (char c : chars) {
+            charSet.add(c);
         }
+
+        StringBuilder sb = new StringBuilder();
+        for (Character character : charSet) {
+            sb.append(character);
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * This method decides whether you should be outputting to the console or the a file, and outputs the given message.
+     * @param message
+     */
+    public void OutputMessage(String message, String fileName){
+        if(Constants.PRINT_TO_FILE){
+            try {
+                File file = new File(fileName);
+                BufferedWriter output = new BufferedWriter(new FileWriter(file));
+                output.write(message);
+                output.close();
+                System.out.println(Constants.OUTPUT_MESSAGE);
+            } catch ( Exception e ) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println(message);
+        }
+
     }
 
 }

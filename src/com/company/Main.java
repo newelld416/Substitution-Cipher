@@ -1,8 +1,5 @@
 package com.company;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.Scanner;
 
 /**
@@ -15,10 +12,13 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        TranslateEngine translateEngine = new TranslateEngine(Constants.FILE_PATH);
         Scanner scanner = new Scanner(System.in);
         boolean ValidInput = false;
         String choice = "";
+
+        System.out.print(Constants.KEYWORD_MESSAGE);
+        String keyWord = scanner.nextLine();
+        TranslateEngine translateEngine = new TranslateEngine(keyWord);
 
         do {
             System.out.print(Constants.START_MESSAGE);
@@ -36,34 +36,15 @@ public class Main {
             System.out.printf(Constants.CHOICE_MESSAGE, choice);
             System.out.println();
             System.out.printf(Constants.ENTER_STRING_MESSAGE, choice);
-            String message = scanner.nextLine();
+            String message = scanner.nextLine().toUpperCase();
 
             if (choice.equals(Constants.DECRYPT)) {
-                OutputMessage(String.format(Constants.FINAL_MESSAGE, choice, translateEngine.DecryptString(message)));
+                translateEngine.OutputMessage(String.format(Constants.FINAL_MESSAGE, choice, translateEngine.DecryptString(message)), Constants.OUTPUT_FILENAME);
             } else if (choice.equals(Constants.ENCRYPT)) {
-                OutputMessage(String.format(Constants.FINAL_MESSAGE, choice, translateEngine.EncryptString(message)));
+                translateEngine.OutputMessage(String.format(Constants.FINAL_MESSAGE, choice, translateEngine.EncryptString(message)), Constants.OUTPUT_FILENAME);
             }
         }
     }
 
-    /**
-     * This method decides whether you should be outputting to the console or the a file, and outputs the given message.
-     * @param message
-     */
-    private static void OutputMessage(String message){
-        if(Constants.PRINT_TO_FILE){
-            try {
-                File file = new File("Output.txt");
-                BufferedWriter output = new BufferedWriter(new FileWriter(file));
-                output.write(message);
-                output.close();
-                System.out.println(Constants.OUTPUT_MESSAGE);
-            } catch ( Exception e ) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println(message);
-        }
 
-    }
 }

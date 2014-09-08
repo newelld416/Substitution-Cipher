@@ -1,1 +1,1 @@
-Your decrypted string: DAN IS COOL.
+Your decrypted string: Dan is Awesome.

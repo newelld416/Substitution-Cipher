@@ -16,6 +16,7 @@ public class Main {
         boolean ValidInput = false;
         String choice = "";
 
+        System.out.println(Constants.SUMMARY_MESSAGE);
         System.out.print(Constants.KEYWORD_MESSAGE);
         String keyWord = scanner.nextLine();
         TranslateEngine translateEngine = new TranslateEngine(keyWord);
@@ -24,10 +25,10 @@ public class Main {
             System.out.print(Constants.START_MESSAGE);
             String nextLine = scanner.nextLine();
             if (nextLine.toLowerCase().equals(Constants.DECRYPT)) {
-                choice = Constants.DECRYPT;
+                choice = TranslateEngine.EncryptionType.decrypt.toString();
                 ValidInput = true;
             } else if (nextLine.toLowerCase().equals(Constants.ENCRYPT)) {
-                choice = Constants.ENCRYPT;
+                choice = TranslateEngine.EncryptionType.encrypt.toString();
                 ValidInput = true;
             }
         } while (!ValidInput);
@@ -36,13 +37,9 @@ public class Main {
             System.out.printf(Constants.CHOICE_MESSAGE, choice);
             System.out.println();
             System.out.printf(Constants.ENTER_STRING_MESSAGE, choice);
-            String message = scanner.nextLine().toUpperCase();
-
-            if (choice.equals(Constants.DECRYPT)) {
-                translateEngine.OutputMessage(String.format(Constants.FINAL_MESSAGE, choice, translateEngine.DecryptString(message)), Constants.OUTPUT_FILENAME);
-            } else if (choice.equals(Constants.ENCRYPT)) {
-                translateEngine.OutputMessage(String.format(Constants.FINAL_MESSAGE, choice, translateEngine.EncryptString(message)), Constants.OUTPUT_FILENAME);
-            }
+            String message = scanner.nextLine();
+            TranslateEngine.EncryptionType encryptionType = choice.equals(Constants.DECRYPT) ? TranslateEngine.EncryptionType.decrypt : TranslateEngine.EncryptionType.encrypt;
+            translateEngine.OutputMessage(String.format(Constants.FINAL_MESSAGE, choice, translateEngine.EncryptDecryptString(message,encryptionType)),Constants.OUTPUT_FILENAME);
         }
     }
 

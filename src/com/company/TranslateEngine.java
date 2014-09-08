@@ -9,75 +9,55 @@ import java.util.Set;
  */
 public class TranslateEngine {
 
-    private char[][] cipher = new char[56][2];
+    private char[][] cipher = new char[54][2];
     private String KeyWord = "";
+    public enum EncryptionType { encrypt, decrypt }
 
     /**
      * This is the constructor method for this class.
      */
     public TranslateEngine(String keyWord) {
-        KeyWord = RemoveDuplicateLetters(keyWord.toUpperCase());
+        KeyWord = RemoveDuplicateLetters(keyWord);
         PopulateCipherArray();
     }
 
     /**
-     * This is a public method used to encrypt a plain string.
-     * @param decryptedString
+     * This is a public method used to encrypt or decrypt a string.
+     * @param message
+     * @param encryptionType
      * @return
      */
-    public String EncryptString(String decryptedString) {
-        StringBuilder sb = new StringBuilder();
+    public String EncryptDecryptString(String message, EncryptionType encryptionType) {
+        StringBuilder returnString = new StringBuilder();
 
-        for(int i = 0; i < decryptedString.length(); i++){
-            sb.append(EncryptCharacter(decryptedString.charAt(i)));
+        int index1 = -1;
+        int index2 = -1;
+
+        if (encryptionType.equals(EncryptionType.encrypt)){
+            index1 = 0;
+            index2 = 1;
+        } else if (encryptionType.equals(EncryptionType.decrypt)){
+            index1 = 1;
+            index2 = 0;
         }
 
-        return sb.toString();
-    }
+        if (index1 >= 0 && index2 >= 0) {
+            for (int i = 0; i < message.length(); i++) {
+                for (int j = 0; j < 54; j++) {
+                    // If statement is true than character was found in cipher
+                    if (cipher[j][index1] == message.charAt(i)) {
+                        returnString.append(cipher[j][index2]);
+                        break;
+                    }
 
-    /**
-     * This is a private method used to encrypt a single plain character.
-     * @param decryptedCharacter
-     * @return
-     */
-    private char EncryptCharacter(char decryptedCharacter){
-        for (int i = 0; i < 26; i++) {
-            if (cipher[i][0] == decryptedCharacter) {
-                return cipher[i][1];
+                    // If statement is true than character was not found in cipher
+                    if (j == 53)
+                        returnString.append(message.charAt(i));
+                }
             }
         }
 
-        return decryptedCharacter;
-    }
-
-    /**
-     * This is a public method used to decrypt an encrypted string.
-     * @param encryptedString
-     * @return
-     */
-    public String DecryptString(String encryptedString) {
-        StringBuilder sb = new StringBuilder();
-
-        for(int i = 0; i < encryptedString.length(); i++){
-            sb.append(DecryptCharacter(encryptedString.charAt(i)));
-        }
-
-        return sb.toString();
-    }
-
-    /**
-     * This is a private method used to decrypt a single encrypted character.
-     * @param encryptedCharacter
-     * @return
-     */
-    private char DecryptCharacter(char encryptedCharacter) {
-        for (int i = 0; i < 26; i++) {
-            if (cipher[i][1] == encryptedCharacter) {
-                return cipher[i][0];
-            }
-        }
-
-        return encryptedCharacter;
+        return returnString.toString();
     }
 
     /**
@@ -129,7 +109,8 @@ public class TranslateEngine {
                 BufferedWriter output = new BufferedWriter(new FileWriter(file));
                 output.write(message);
                 output.close();
-                System.out.println(Constants.OUTPUT_MESSAGE);
+                System.out.printf(Constants.OUTPUT_MESSAGE, fileName);
+                System.out.println();
             } catch ( Exception e ) {
                 e.printStackTrace();
             }

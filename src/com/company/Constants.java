@@ -8,7 +8,7 @@ public class Constants {
     // Constant Variables
     public static final String DECRYPT = "decrypt";
     public static final String ENCRYPT = "encrypt";
-    public static final String FILE_PATH = "C:\\School Workspaces\\Substitution-Cipher\\EncryptionKey.txt";
+    public static final String YES = "yes";
     public static final boolean PRINT_TO_FILE = false;
     public static final String PlainTextBackward = "ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcba";
     public static final String PlainTextForward = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -24,5 +24,4 @@ public class Constants {
     public static final String KEYWORD_MESSAGE = "Please enter the keyword you wish to create the cipher with: ";
     public static final String SUMMARY_MESSAGE = "This program allows you to create a Caesar Cipher using any keyword that you choose. \n";
     public static final String CONTINUE_MESSAGE = "Would you like to continue (Yes or No): ";
-    public static final String YES = "yes";
 }

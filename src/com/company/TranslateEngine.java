@@ -30,30 +30,16 @@ public class TranslateEngine {
     public String EncryptDecryptString(String message, EncryptionType encryptionType) {
         StringBuilder returnString = new StringBuilder();
 
-        int index1 = -1;
-        int index2 = -1;
-
-        if (encryptionType.equals(EncryptionType.encrypt)){
-            index1 = 0;
-            index2 = 1;
-        } else if (encryptionType.equals(EncryptionType.decrypt)){
-            index1 = 1;
-            index2 = 0;
-        }
-
-        if (index1 >= 0 && index2 >= 0) {
-            for (int i = 0; i < message.length(); i++) {
-                for (int j = 0; j < 54; j++) {
-                    // If statement is true than character was found in cipher
-                    if (cipher[j][index1] == message.charAt(i)) {
-                        returnString.append(cipher[j][index2]);
-                        break;
-                    }
-
-                    // If statement is true than character was not found in cipher
-                    if (j == 53)
-                        returnString.append(message.charAt(i));
+        for (int i = 0; i < message.length(); i++) {
+            for (int j = 0; j < 54; j++) {
+                // If statement is true than character was found in cipher
+                if (cipher[j][encryptionType.equals(EncryptionType.encrypt) ? 0 : 1] == message.charAt(i)) {
+                    returnString.append(cipher[j][encryptionType.equals(EncryptionType.encrypt) ? 1 : 0]);
+                    break;
                 }
+
+                // If statement is true than character was not found in cipher
+                if (j == 53) { returnString.append(message.charAt(i)); }
             }
         }
 
@@ -74,12 +60,11 @@ public class TranslateEngine {
             cipher[i][1] = EncryptionKey.charAt(i);
         }
 
-        String message = String.format("%s\n%s", PlainTextForward, EncryptionKey);
-        OutputMessage(message, Constants.ENCRYPTION_FILENAME);
+        OutputMessage(String.format("%s\n%s", PlainTextForward, EncryptionKey), Constants.ENCRYPTION_FILENAME);
     }
 
     /**
-     * This method removes the duplicate letter in the keyword.
+     * This method removes the duplicate letters in the key passed in.
      * @param key
      * @return
      */

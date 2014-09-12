@@ -9,7 +9,7 @@ public class Constants {
     public static final String DECRYPT = "decrypt";
     public static final String ENCRYPT = "encrypt";
     public static final String YES = "yes";
-    public static final boolean PRINT_TO_FILE = false;
+    public static final boolean PRINT_TO_FILE = true;
     public static final String PlainTextBackward = "ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcba";
     public static final String PlainTextForward = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     public static final String OUTPUT_FILENAME = "Output.txt";

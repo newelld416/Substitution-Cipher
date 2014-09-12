@@ -22,6 +22,7 @@ public class Constants {
     public static final String FINAL_MESSAGE = "Your %sed string: %s";
     public static final String OUTPUT_MESSAGE = "Your message has been written out to the file %s";
     public static final String KEYWORD_MESSAGE = "Please enter the keyword you wish to create the cipher with: ";
-    public static final String SUMMARY_MESSAGE = "This program allows you to create a Caesar Cipher using any keyword that you choose. \n";
     public static final String CONTINUE_MESSAGE = "Would you like to continue (Yes or No): ";
+    public static final String SUMMARY_MESSAGE =
+            "This program allows you to create a Caesar Cipher using any keyword that you choose. \n";
 }
